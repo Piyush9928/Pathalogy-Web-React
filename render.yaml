@@ -1,0 +1,50 @@
+# Render Blueprint: backend API (Node web service) + frontend (static site). The database stays on Neon.
+# Deploy: Render dashboard -> New -> Blueprint -> pick this repo. Render asks for the values marked "sync: false".
+services:
+  # ---------- Backend API ----------
+  - type: web
+    name: labsync-api
+    runtime: node
+    rootDir: backend
+    plan: free                  # free instances sleep after ~15 min idle (first request is slow); use "starter" for always-on
+    buildCommand: npm ci
+    # Migrations are idempotent; bootstrap only creates plans + the first developer account when none exists.
+    startCommand: npm run migrate && npm run bootstrap && npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NODE_VERSION
+        value: "22"
+      - key: DATABASE_URL        # Neon connection string (use a NEW password, not the one used during development)
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true      # Render creates a long random value
+      - key: CORS_ORIGIN         # the web app URL below, e.g. https://labsync-web.onrender.com
+        sync: false
+      - key: DEVELOPER_EMAIL     # first platform-owner login (only used while no developer account exists)
+        sync: false
+      - key: DEVELOPER_PASSWORD  # at least 10 characters; change it later from /developer/account
+        sync: false
+    # Uploaded files (radiology images, cross-match reports, logos) are lost on every deploy unless they live on a
+    # persistent disk. Disks need a paid plan: switch "plan" above to starter, uncomment this block, and add
+    # UPLOAD_DIR=/var/data/uploads to the env vars.
+    # disk:
+    #   name: uploads
+    #   mountPath: /var/data
+    #   sizeGB: 1
+
+  # ---------- Frontend (React / Vite) ----------
+  - type: web
+    name: labsync-web
+    runtime: static
+    rootDir: frontend
+    buildCommand: npm ci && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_API_BASE_URL   # the API URL + /api, e.g. https://labsync-api.onrender.com/api (baked in at build time)
+        sync: false
+    routes:
+      - type: rewrite            # React Router: every path must serve index.html
+        source: /*
+        destination: /index.html

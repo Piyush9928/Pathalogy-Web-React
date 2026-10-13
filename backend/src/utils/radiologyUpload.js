@@ -3,7 +3,8 @@ const path = require('path');
 const fs = require('fs');
 const crypto = require('crypto');
 
-const uploadDir = path.join(__dirname, '..', '..', 'uploads', 'radiology');
+const { UPLOAD_ROOT } = require('../config/paths');
+const uploadDir = path.join(UPLOAD_ROOT, 'radiology');
 fs.mkdirSync(uploadDir, { recursive: true });
 
 // Matches the original's SaveUploadedFilesAsync allow-list exactly (.dcm/.dicom for real

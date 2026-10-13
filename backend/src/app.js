@@ -50,7 +50,13 @@ const { router: brandingRoutes } = require('./routes/branding.routes');
 
 const app = express();
 
-app.use(cors());
+// Behind a hosting proxy (Render) the real client address is in X-Forwarded-For; this makes req.ip (used in audit logs) correct.
+app.set('trust proxy', 1);
+
+// CORS_ORIGIN = comma-separated list of web app URLs allowed to call the API (required in production, see server.js).
+// Without it (local development) every origin is allowed.
+const allowedOrigins = (process.env.CORS_ORIGIN || '').split(',').map((o) => o.trim().replace(/\/$/, '')).filter(Boolean);
+app.use(cors(allowedOrigins.length ? { origin: allowedOrigins } : undefined));
 app.use(express.json({ limit: '300kb' })); // room for a base64 patient photo (capped at 150k chars in the patient route)
 app.use(morgan('dev'));
 

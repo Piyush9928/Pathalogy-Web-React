@@ -7,7 +7,9 @@ const path = require('path');
 // and the extension comes from a fixed allowlist, so no user-controlled path ever reaches the filesystem.
 const router = express.Router();
 
-const logoDir = path.join(__dirname, '..', '..', 'uploads', 'logos');
+const { UPLOAD_ROOT } = require('../config/paths');
+
+const logoDir = path.join(UPLOAD_ROOT, 'logos');
 const TYPES = { '.png': 'image/png', '.jpg': 'image/jpeg', '.webp': 'image/webp' };
 
 router.get('/logo/:hospitalId', (req, res) => {

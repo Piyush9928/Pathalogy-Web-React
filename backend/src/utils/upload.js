@@ -2,7 +2,8 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 
-const uploadDir = path.join(__dirname, '..', '..', 'uploads', 'bloodbank', 'crossmatch');
+const { UPLOAD_ROOT } = require('../config/paths');
+const uploadDir = path.join(UPLOAD_ROOT, 'bloodbank', 'crossmatch');
 fs.mkdirSync(uploadDir, { recursive: true });
 
 const ALLOWED_EXTENSIONS = ['.pdf', '.png', '.jpg', '.jpeg'];
