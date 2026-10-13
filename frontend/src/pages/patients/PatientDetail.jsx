@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import apiClient from '../../api/client';
 import PageHeader from '../../components/PageHeader';
+import Loader from '../../components/Loader';
 
 export default function PatientDetail() {
   const { id } = useParams();
@@ -40,8 +41,7 @@ export default function PatientDetail() {
   }
 
   if (error) return <div className="auth-alert">{error}</div>;
-  if (!patient) return null;
-
+  if (!patient) return <Loader />;
   const referralLabel = patient.referral_type === 'Doctor'
     ? (patient.referred_doctor_name || 'Doctor')
     : patient.referral_type === 'Collection Center'

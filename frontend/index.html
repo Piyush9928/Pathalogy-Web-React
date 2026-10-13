@@ -14,10 +14,17 @@
         if (t === 'dark') { document.documentElement.setAttribute('data-theme', 'dark'); }
       })();
     </script>
+    <link rel="preload" href="/hospital-loader.svg" as="image" type="image/svg+xml" />
     <title>LabSync Pro</title>
   </head>
   <body>
-    <div id="root"></div>
+    <!-- Shown until the app script has loaded; React replaces the contents of #root when it starts. -->
+    <div id="root">
+      <div role="status" aria-live="polite" style="position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.35rem;background:#f1f8f8;font-family:Inter,system-ui,sans-serif;color:#5b6b7f">
+        <img src="/hospital-loader.svg" alt="" style="width:min(440px,80vw);height:auto" draggable="false" />
+        <span style="font-size:.8rem;font-weight:600">Loading...</span>
+      </div>
+    </div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

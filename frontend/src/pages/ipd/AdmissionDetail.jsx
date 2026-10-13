@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import apiClient from '../../api/client';
 import PageHeader from '../../components/PageHeader';
+import Loader from '../../components/Loader';
 
 const CHARGE_CATEGORIES = ['Room Rent', 'Doctor Visit', 'Nursing', 'Medicine', 'Procedure', 'Investigation', 'Other'];
 const PAYMENT_MODES = ['Cash', 'Card', 'UPI', 'Net Banking', 'Cheque'];
@@ -85,8 +86,7 @@ export default function AdmissionDetail() {
   }
 
   if (error && !admission) return <div className="auth-alert">{error}</div>;
-  if (!admission) return null;
-
+  if (!admission) return <Loader />;
   return (
     <>
       <PageHeader

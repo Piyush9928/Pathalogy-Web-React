@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import apiClient from '../../api/client';
 import PageHeader from '../../components/PageHeader';
+import Loader from '../../components/Loader';
 
 export default function VoucherDetail() {
   const { id } = useParams();
@@ -13,8 +14,7 @@ export default function VoucherDetail() {
   }, [id]);
 
   if (error) return <div className="auth-alert">{error}</div>;
-  if (!voucher) return null;
-
+  if (!voucher) return <Loader />;
   return (
     <>
       <PageHeader

@@ -4,6 +4,7 @@ import apiClient from '../../api/client';
 import PageHeader from '../../components/PageHeader';
 import HospitalBrand from '../../components/HospitalBrand';
 import { useAuth } from '../../context/AuthContext';
+import Loader from '../../components/Loader';
 
 export default function SaleDetail() {
   const { id } = useParams();
@@ -16,8 +17,7 @@ export default function SaleDetail() {
   }, [id]);
 
   if (error) return <div className="auth-alert">{error}</div>;
-  if (!data) return null;
-
+  if (!data) return <Loader />;
   const { sale, lines } = data;
 
   return (

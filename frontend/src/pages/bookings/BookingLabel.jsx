@@ -5,6 +5,7 @@ import apiClient from '../../api/client';
 import { useAuth } from '../../context/AuthContext';
 
 import HospitalBrand from '../../components/HospitalBrand';
+import Loader from '../../components/Loader';
 export default function BookingLabel() {
   const { id } = useParams();
   const { hospital } = useAuth();
@@ -25,8 +26,7 @@ export default function BookingLabel() {
   }, [data]);
 
   if (error) return <div className="auth-alert">{error}</div>;
-  if (!data) return null;
-
+  if (!data) return <Loader />;
   const { booking, tests } = data;
 
   return (

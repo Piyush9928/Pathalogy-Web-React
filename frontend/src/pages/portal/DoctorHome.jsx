@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { doctorApi } from '../../api/kindClient';
 import PageHeader from '../../components/PageHeader';
+import Loader from '../../components/Loader';
 
 const fmt = (v) => (v ? new Date(v).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }) : '—');
 
@@ -16,7 +17,7 @@ export default function DoctorHome() {
   }, []);
 
   if (error) return <div className="auth-alert" role="alert">{error}</div>;
-  if (!data) return <div className="lsp-panel">Loading...</div>;
+  if (!data) return <div className="lsp-panel"><Loader compact /></div>;
 
   const { doctor, patients, bookings, reports } = data;
   return (

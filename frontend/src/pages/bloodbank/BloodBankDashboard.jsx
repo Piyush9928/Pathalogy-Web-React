@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import apiClient from '../../api/client';
+import Loader from '../../components/Loader';
 
 export default function BloodBankDashboard() {
   const [data, setData] = useState(null);
@@ -26,8 +27,7 @@ export default function BloodBankDashboard() {
   }
 
   if (error && !data) return <div className="auth-alert">{error}</div>;
-  if (!data) return null;
-
+  if (!data) return <Loader />;
   return (
     <>
       <div className="page-header" style={{ padding: 0, marginBottom: '1rem' }}>

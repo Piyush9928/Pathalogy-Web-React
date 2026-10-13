@@ -1,12 +1,13 @@
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { firstAdminPath, firstAllowedPath, permissionForPath } from '../config/navigation';
+import Loader from './/Loader';
 
 export default function ProtectedRoute({ children, roles, permission }) {
   const { user, loading, hasPermission, hasRole } = useAuth();
   const location = useLocation();
 
-  if (loading) return null;
+  if (loading) return <Loader fullPage />;
   if (!user) {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }

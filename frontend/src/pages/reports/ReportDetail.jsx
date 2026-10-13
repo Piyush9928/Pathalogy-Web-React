@@ -5,6 +5,7 @@ import PageHeader from '../../components/PageHeader';
 import SignaturePad from './SignaturePad';
 import HospitalBrand from '../../components/HospitalBrand';
 import { useAuth } from '../../context/AuthContext';
+import Loader from '../../components/Loader';
 
 function flagPill(flag) {
   if (flag === 'Critical') return 'pill-danger';
@@ -79,8 +80,7 @@ export default function ReportDetail() {
   }
 
   if (error && !data) return <div className="auth-alert">{error}</div>;
-  if (!data) return null;
-
+  if (!data) return <Loader />;
   const { report, results } = data;
 
   return (

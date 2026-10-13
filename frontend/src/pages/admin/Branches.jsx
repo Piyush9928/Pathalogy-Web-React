@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import apiClient from '../../api/client';
+import Loader from '../../components/Loader';
 
 const EMPTY_FORM = { name: '', code: '', address: '', city: '', state: '', pincode: '', phone: '', email: '', gstin: '', branchType: 'Branch Lab', workingHours: '08:00 - 20:00' };
 
@@ -134,7 +135,7 @@ export default function Branches() {
             </thead>
             <tbody>
               {loading ? (
-                <tr><td colSpan={6}>Loading...</td></tr>
+                <tr><td colSpan={6}><Loader compact /></td></tr>
               ) : branches.length === 0 ? (
                 <tr><td colSpan={6}>No branches found.</td></tr>
               ) : (

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import apiClient from '../../api/client';
+import Loader from '../../components/Loader';
 
 const EMPTY_FORM = {
   bloodGroup: 'A+', componentType: 'Whole Blood', batchNo: '', collectedOn: new Date().toISOString().slice(0, 10),
@@ -177,7 +178,7 @@ export default function BloodInventory() {
             <thead><tr><th>Unit #</th><th>Group</th><th>Component</th><th>Donor</th><th>Collected</th><th>Expiry</th><th>Status</th><th></th></tr></thead>
             <tbody>
               {loading ? (
-                <tr><td colSpan={8}>Loading...</td></tr>
+                <tr><td colSpan={8}><Loader compact /></td></tr>
               ) : units.length === 0 ? (
                 <tr><td colSpan={8}>No blood units found.</td></tr>
               ) : (

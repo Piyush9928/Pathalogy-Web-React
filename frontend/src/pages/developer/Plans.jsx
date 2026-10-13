@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { developerApi } from '../../api/kindClient';
 import PageHeader from '../../components/PageHeader';
+import Loader from '../../components/Loader';
 
 const inr = (n) => `₹${Number(n).toLocaleString('en-IN')}`;
 
@@ -39,7 +40,7 @@ export default function Plans() {
       <PageHeader title="Subscription Plans" subtitle="Plans available when onboarding or renewing hospitals"
         actions={<Link className="btn btn-primary" to="/developer/plans/new"><i className="bi bi-plus-lg" /> New Plan</Link>} />
       {error && <div className="auth-alert" role="alert">{error}</div>}
-      {loading ? <div className="lsp-panel">Loading...</div> : (
+      {loading ? <div className="lsp-panel"><Loader compact /></div> : (
         <div className="card-grid">
           {plans.map((p) => (
             <div className="entity-card" key={p.id} style={p.is_active ? undefined : { opacity: 0.65 }}>

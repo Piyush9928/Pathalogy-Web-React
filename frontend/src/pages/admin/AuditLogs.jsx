@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import apiClient from '../../api/client';
+import Loader from '../../components/Loader';
 
 export default function AuditLogs() {
   const [logs, setLogs] = useState([]);
@@ -60,7 +61,7 @@ export default function AuditLogs() {
             </thead>
             <tbody>
               {loading ? (
-                <tr><td colSpan={7}>Loading...</td></tr>
+                <tr><td colSpan={7}><Loader compact /></td></tr>
               ) : logs.length === 0 ? (
                 <tr><td colSpan={7}>No audit events found.</td></tr>
               ) : (

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import apiClient from '../../api/client';
+import Loader from '../../components/Loader';
 
 const TABS = [
   { key: 'stock', label: 'Stock Balance', icon: 'bi-box-seam' },
@@ -19,7 +20,7 @@ function StockBalanceTab() {
   useEffect(() => {
     apiClient.get('/pharmacy/reports/stock-balance').then((res) => setData(res.data)).catch(() => {});
   }, []);
-  if (!data) return null;
+  if (!data) return <Loader />;
   return (
     <div className="lsp-panel">
       <div className="kpi-row" style={{ gridTemplateColumns: 'repeat(4, minmax(150px, 1fr))', marginBottom: '1rem' }}>
@@ -50,7 +51,7 @@ function ExpiryReportTab() {
   useEffect(() => {
     apiClient.get('/pharmacy/reports/expiry').then((res) => setData(res.data)).catch(() => {});
   }, []);
-  if (!data) return null;
+  if (!data) return <Loader />;
   return (
     <div className="lsp-panel">
       <div className="lsp-table-wrapper">
@@ -80,7 +81,7 @@ function SalesRegisterTab() {
     apiClient.get('/pharmacy/reports/sales-register', { params: { from, to } }).then((res) => setData(res.data)).catch(() => {});
   }, [from, to]);
 
-  if (!data) return null;
+  if (!data) return <Loader />;
   return (
     <div className="lsp-panel">
       <div className="row-g" style={{ marginBottom: '1rem' }}>

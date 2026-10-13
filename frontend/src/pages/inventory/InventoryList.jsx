@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import apiClient from '../../api/client';
+import Loader from '../../components/Loader';
 
 function statusPill(item) {
   if (item.is_expired) return { cls: 'pill-danger', label: 'Expired' };
@@ -73,7 +74,7 @@ export default function InventoryList() {
             <thead><tr><th>Code</th><th>Item</th><th>Category</th><th>Stock</th><th>Min.</th><th>Unit Cost</th><th>Value</th><th>Expiry</th><th>Status</th><th></th></tr></thead>
             <tbody>
               {loading ? (
-                <tr><td colSpan={10}>Loading...</td></tr>
+                <tr><td colSpan={10}><Loader compact /></td></tr>
               ) : items.length === 0 ? (
                 <tr><td colSpan={10}>No inventory items found.</td></tr>
               ) : (

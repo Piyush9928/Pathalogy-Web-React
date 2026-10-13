@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import apiClient from '../../api/client';
+import Loader from '../../components/Loader';
 
 const EMPTY_FORM = { fullName: '', email: '', phone: '', roleId: '', branchId: '', designation: '', tempPassword: '' };
 
@@ -154,7 +155,7 @@ export default function Users() {
             </thead>
             <tbody>
               {loading ? (
-                <tr><td colSpan={6}>Loading...</td></tr>
+                <tr><td colSpan={6}><Loader compact /></td></tr>
               ) : users.length === 0 ? (
                 <tr><td colSpan={6}>No users found.</td></tr>
               ) : (

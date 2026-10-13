@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import apiClient from '../../api/client';
 import PageHeader from '../../components/PageHeader';
+import Loader from '../../components/Loader';
 
 const STATUS_FLOW = ['Scheduled', 'Pre-Op Holding', 'In Surgery', 'PACU / Recovery', 'Completed'];
 
@@ -91,8 +92,7 @@ export default function CaseSheetDetail() {
   }
 
   if (error && !booking) return <div className="auth-alert">{error}</div>;
-  if (!booking) return null;
-
+  if (!booking) return <Loader />;
   const currentIdx = STATUS_FLOW.indexOf(booking.status);
   const nextStatus = currentIdx >= 0 && currentIdx < STATUS_FLOW.length - 1 ? STATUS_FLOW[currentIdx + 1] : null;
   const isTerminal = booking.status === 'Completed' || booking.status === 'Cancelled';

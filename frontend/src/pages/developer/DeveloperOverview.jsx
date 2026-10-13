@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { developerApi } from '../../api/kindClient';
 import PageHeader from '../../components/PageHeader';
+import Loader from '../../components/Loader';
 
 export default function DeveloperOverview() {
   const [data, setData] = useState(null);
@@ -30,7 +31,7 @@ export default function DeveloperOverview() {
         actions={<Link className="btn btn-primary" to="/developer/hospitals/new"><i className="bi bi-plus-lg" /> Onboard Hospital</Link>}
       />
       {error && <div className="auth-alert" role="alert">{error}</div>}
-      {!data && !error && <div className="lsp-panel">Loading...</div>}
+      {!data && !error && <div className="lsp-panel"><Loader compact /></div>}
       {data && (
         <>
           <div className="kpi-row">

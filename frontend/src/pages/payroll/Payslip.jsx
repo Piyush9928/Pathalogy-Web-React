@@ -4,6 +4,7 @@ import apiClient from '../../api/client';
 import PageHeader from '../../components/PageHeader';
 import HospitalBrand from '../../components/HospitalBrand';
 import { useAuth } from '../../context/AuthContext';
+import Loader from '../../components/Loader';
 
 export default function Payslip() {
   const { id } = useParams();
@@ -37,8 +38,7 @@ export default function Payslip() {
   }
 
   if (error && !payment) return <div className="auth-alert">{error}</div>;
-  if (!payment) return null;
-
+  if (!payment) return <Loader />;
   return (
     <>
       <PageHeader

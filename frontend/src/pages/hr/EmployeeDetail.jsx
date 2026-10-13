@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import apiClient from '../../api/client';
 import PageHeader from '../../components/PageHeader';
+import Loader from '../../components/Loader';
 
 const CURRENT_STATUSES = ['Active', 'On Leave', 'Resigned', 'Terminated'];
 
@@ -57,8 +58,7 @@ export default function EmployeeDetail() {
   }
 
   if (error && !employee) return <div className="auth-alert">{error}</div>;
-  if (!employee) return null;
-
+  if (!employee) return <Loader />;
   return (
     <>
       <PageHeader

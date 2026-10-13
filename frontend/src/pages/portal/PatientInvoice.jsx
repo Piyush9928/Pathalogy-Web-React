@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import { patientApi, getSession } from '../../api/kindClient';
 import HospitalBrand from '../../components/HospitalBrand';
 import PageHeader from '../../components/PageHeader';
+import Loader from '../../components/Loader';
 
 const inr = (n) => `₹${Number(n || 0).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 const fmt = (v) => (v ? new Date(v).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }) : '—');
@@ -21,7 +22,7 @@ export default function PatientInvoice() {
 
   const back = <Link className="btn btn-outline-secondary" to="/patient-portal"><i className="bi bi-arrow-left" /> Back</Link>;
   if (error) return (<><PageHeader title="Invoice" actions={back} /><div className="auth-alert" role="alert">{error}</div></>);
-  if (!data) return <div className="lsp-panel">Loading...</div>;
+  if (!data) return <div className="lsp-panel"><Loader compact /></div>;
 
   const { invoice: inv, items, payments } = data;
   return (

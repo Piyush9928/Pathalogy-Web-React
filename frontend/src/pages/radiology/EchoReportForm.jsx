@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import apiClient from '../../api/client';
 import PageHeader from '../../components/PageHeader';
+import Loader from '../../components/Loader';
 
 const MEASUREMENT_FIELDS = [
   { key: 'lvidd', label: 'LVIDd (cm)' },
@@ -87,8 +88,7 @@ export default function EchoReportForm() {
   }
 
   if (error && !study) return <div className="auth-alert">{error}</div>;
-  if (!study) return null;
-
+  if (!study) return <Loader />;
   return (
     <>
       <PageHeader

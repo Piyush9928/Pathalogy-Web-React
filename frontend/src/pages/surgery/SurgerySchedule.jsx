@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import apiClient from '../../api/client';
+import Loader from '../../components/Loader';
 
 function statusPillClass(status) {
   if (status === 'Completed') return 'pill-teal';
@@ -83,7 +84,7 @@ export default function SurgerySchedule() {
             <thead><tr><th>Case #</th><th>Patient</th><th>Procedure</th><th>Theatre</th><th>Lead Surgeon</th><th>Scheduled</th><th>Priority</th><th>Status</th><th></th></tr></thead>
             <tbody>
               {loading ? (
-                <tr><td colSpan={9}>Loading...</td></tr>
+                <tr><td colSpan={9}><Loader compact /></td></tr>
               ) : bookings.length === 0 ? (
                 <tr><td colSpan={9}>No surgeries found.</td></tr>
               ) : bookings.map((b) => (

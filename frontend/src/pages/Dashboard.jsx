@@ -4,6 +4,7 @@ import Chart from 'chart.js/auto';
 import apiClient from '../api/client';
 import PageHeader from '../components/PageHeader';
 import { useAuth } from '../context/AuthContext';
+import Loader from '../components/Loader';
 
 function trendClass(value, invert = false) {
   if (Math.abs(value) < 0.05) return 'flat';
@@ -190,8 +191,7 @@ export default function Dashboard() {
     );
   }
 
-  if (!data) return null;
-
+  if (!data) return <Loader />;
   const { kpis, charts, recentActivity, greeting } = data;
 
   return (

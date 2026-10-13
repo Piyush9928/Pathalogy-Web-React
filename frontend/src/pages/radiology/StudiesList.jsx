@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import apiClient from '../../api/client';
+import Loader from '../../components/Loader';
 
 export default function StudiesList() {
   const [studies, setStudies] = useState([]);
@@ -66,7 +67,7 @@ export default function StudiesList() {
             <thead><tr><th>Accession #</th><th>Patient</th><th>Modality</th><th>Body Part</th><th>Study Date</th><th>Images</th><th>Status</th><th></th></tr></thead>
             <tbody>
               {loading ? (
-                <tr><td colSpan={8}>Loading...</td></tr>
+                <tr><td colSpan={8}><Loader compact /></td></tr>
               ) : studies.length === 0 ? (
                 <tr><td colSpan={8}>No radiology studies found.</td></tr>
               ) : studies.map((s) => (

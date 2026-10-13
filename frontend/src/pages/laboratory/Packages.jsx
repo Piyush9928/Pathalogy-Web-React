@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import apiClient from '../../api/client';
+import Loader from '../../components/Loader';
 
 const EMPTY_FORM = { code: '', name: '', description: '', price: '', testIds: [] };
 
@@ -117,7 +118,7 @@ export default function Packages() {
       </div>
 
       {loading ? (
-        <div className="lsp-panel">Loading...</div>
+        <div className="lsp-panel"><Loader compact /></div>
       ) : packages.length === 0 ? (
         <div className="lsp-panel"><div className="empty-state"><span className="es-ico"><i className="bi bi-box2-heart" /></span><h4>No packages found</h4></div></div>
       ) : (

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import apiClient from '../../api/client';
 import PageHeader from '../../components/PageHeader';
+import Loader from '../../components/Loader';
 
 export default function BookingDetail() {
   const { id } = useParams();
@@ -71,8 +72,7 @@ export default function BookingDetail() {
   }
 
   if (loadError) return <div className="auth-alert" role="alert">{loadError}</div>;
-  if (!data) return null;
-
+  if (!data) return <Loader />;
   const { booking, tests, statusHistory, statuses } = data;
   const isHomeCollection = booking.booking_type === 'Home Collection';
 

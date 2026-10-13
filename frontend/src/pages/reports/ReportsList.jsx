@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import apiClient from '../../api/client';
 import PageHeader from '../../components/PageHeader';
+import Loader from '../../components/Loader';
 
 function statusPill(status) {
   if (status === 'Delivered' || status === 'Approved') return 'pill-success';
@@ -73,7 +74,7 @@ export default function ReportsList() {
             <thead><tr><th>Report</th><th>Patient</th><th>Booking</th><th>Referred By</th><th>Status</th><th>Critical</th><th></th></tr></thead>
             <tbody>
               {loading ? (
-                <tr><td colSpan={7}>Loading...</td></tr>
+                <tr><td colSpan={7}><Loader compact /></td></tr>
               ) : reports.length === 0 ? (
                 <tr><td colSpan={7}>No reports found.</td></tr>
               ) : (

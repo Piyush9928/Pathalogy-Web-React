@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import apiClient from '../../api/client';
 import PageHeader from '../../components/PageHeader';
+import Loader from '../../components/Loader';
 
 const STAGE_CLASS = {
   Delivered: 'sel-success', Approved: 'sel-success', Cancelled: 'sel-danger',
@@ -84,7 +85,7 @@ export default function BookingsList() {
             </thead>
             <tbody>
               {loading ? (
-                <tr><td colSpan={9}>Loading...</td></tr>
+                <tr><td colSpan={9}><Loader compact /></td></tr>
               ) : bookings.length === 0 ? (
                 <tr><td colSpan={9}>No bookings found.</td></tr>
               ) : (

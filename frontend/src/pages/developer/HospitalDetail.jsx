@@ -4,6 +4,7 @@ import { developerApi } from '../../api/kindClient';
 import PageHeader from '../../components/PageHeader';
 import { STATE_PILL, fmtDate } from './Hospitals';
 import { resolveLogoUrl } from '../../utils/logo';
+import Loader from '../../components/Loader';
 
 export default function HospitalDetail() {
   const { id } = useParams();
@@ -58,7 +59,7 @@ export default function HospitalDetail() {
     }
   }
 
-  if (!hospital) return error ? <div className="auth-alert" role="alert">{error}</div> : <div className="lsp-panel">Loading...</div>;
+  if (!hospital) return error ? <div className="auth-alert" role="alert">{error}</div> : <div className="lsp-panel"><Loader compact /></div>;
 
   const h = hospital;
   const rows = [

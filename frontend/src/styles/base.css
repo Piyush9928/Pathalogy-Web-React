@@ -288,3 +288,31 @@ table.lsp-table tbody tr:hover { background: var(--lsp-surface-alt); }
 }
 .empty-state h4 { font-size: 1rem; margin: 0 0 0.3rem; color: var(--lsp-ink); }
 .empty-state p { font-size: 0.85rem; margin: 0; }
+
+/* ---- Loader (animated hospital) ---- */
+.lsp-loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 0.5rem;
+  color: var(--lsp-text-muted);
+  text-align: center;
+}
+.lsp-loader .loader-img { display: block; height: auto; max-width: 100%; user-select: none; pointer-events: none; }
+.lsp-loader .loader-label { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.02em; }
+.loader-sm .loader-img { width: 190px; }
+.loader-md .loader-img { width: 300px; }
+.loader-lg .loader-img { width: min(440px, 80vw); }
+.lsp-loader.loader-full {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: var(--lsp-bg, #fff);
+}
+/* The SVG animation cannot be paused from CSS, so people who ask for less motion get the text only. */
+@media (prefers-reduced-motion: reduce) {
+  .lsp-loader .loader-img { display: none; }
+  .lsp-loader .loader-label { font-size: 0.95rem; }
+}

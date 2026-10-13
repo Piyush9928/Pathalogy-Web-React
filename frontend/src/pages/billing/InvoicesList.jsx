@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import apiClient from '../../api/client';
 import PageHeader from '../../components/PageHeader';
+import Loader from '../../components/Loader';
 
 function paymentPill(status) {
   if (status === 'Paid') return 'pill-success';
@@ -71,7 +72,7 @@ export default function InvoicesList() {
             <thead><tr><th>Invoice</th><th>Patient</th><th>Sub Total</th><th>Discount</th><th>GST</th><th>Total</th><th>Balance</th><th>Status</th><th></th></tr></thead>
             <tbody>
               {loading ? (
-                <tr><td colSpan={9}>Loading...</td></tr>
+                <tr><td colSpan={9}><Loader compact /></td></tr>
               ) : invoices.length === 0 ? (
                 <tr><td colSpan={9}>No invoices found.</td></tr>
               ) : (

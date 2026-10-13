@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import apiClient from '../../api/client';
 import { useAuth } from '../../context/AuthContext';
 import { resolveLogoUrl } from '../../utils/logo';
+import Loader from '../../components/Loader';
 
 const MAX_LOGO_BYTES = 512 * 1024;
 
@@ -108,7 +109,7 @@ export default function CompanySettings() {
     }
   }
 
-  if (!form) return null;
+  if (!form) return error ? <div className="auth-alert">{error}</div> : <Loader />;
 
   return (
     <>

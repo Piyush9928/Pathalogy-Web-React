@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import apiClient from '../../api/client';
+import Loader from '../../components/Loader';
 
 export default function SalesHistory() {
   const [sales, setSales] = useState([]);
@@ -48,7 +49,7 @@ export default function SalesHistory() {
             <thead><tr><th>Sale #</th><th>Customer</th><th>Date</th><th>Payment Mode</th><th>Paid</th><th></th></tr></thead>
             <tbody>
               {loading ? (
-                <tr><td colSpan={6}>Loading...</td></tr>
+                <tr><td colSpan={6}><Loader compact /></td></tr>
               ) : sales.length === 0 ? (
                 <tr><td colSpan={6}>No sales found.</td></tr>
               ) : (

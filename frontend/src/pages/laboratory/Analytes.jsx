@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import apiClient from '../../api/client';
+import Loader from '../../components/Loader';
 
 const RESULT_TYPES = ['Numeric', 'Text', 'Dropdown', 'Boolean'];
 const EMPTY_FORM = {
@@ -190,7 +191,7 @@ export default function Analytes() {
       </div>
 
       {loading ? (
-        <div className="lsp-panel">Loading...</div>
+        <div className="lsp-panel"><Loader compact /></div>
       ) : Object.keys(grouped).length === 0 ? (
         <div className="lsp-panel"><div className="empty-state"><span className="es-ico"><i className="bi bi-capsule" /></span><h4>No analytes found</h4></div></div>
       ) : (

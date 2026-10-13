@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import apiClient from '../../api/client';
+import Loader from '../../components/Loader';
 
 const EMPTY_FORM = { name: '', code: '', description: '' };
 
@@ -102,7 +103,7 @@ export default function Departments() {
             <thead><tr><th>Code</th><th>Name</th><th>Description</th><th>Tests</th><th>Status</th><th></th></tr></thead>
             <tbody>
               {loading ? (
-                <tr><td colSpan={6}>Loading...</td></tr>
+                <tr><td colSpan={6}><Loader compact /></td></tr>
               ) : departments.length === 0 ? (
                 <tr><td colSpan={6}>No departments found.</td></tr>
               ) : (

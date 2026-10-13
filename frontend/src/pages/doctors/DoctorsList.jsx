@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import apiClient from '../../api/client';
 import PageHeader from '../../components/PageHeader';
+import Loader from '../../components/Loader';
 
 function initials(name = '') {
   return name.split(' ').filter(Boolean).slice(0, 2).map((p) => p[0]?.toUpperCase()).join('');
@@ -57,7 +58,7 @@ export default function DoctorsList() {
       </div>
 
       {loading ? (
-        <div className="lsp-panel">Loading...</div>
+        <div className="lsp-panel"><Loader compact /></div>
       ) : doctors.length === 0 ? (
         <div className="lsp-panel"><div className="empty-state"><span className="es-ico"><i className="bi bi-person-vcard" /></span><h4>No doctors found</h4></div></div>
       ) : (

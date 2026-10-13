@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { doctorApi } from '../../api/kindClient';
 import PageHeader from '../../components/PageHeader';
+import Loader from '../../components/Loader';
 
 const EMPTY = { patientId: '', bloodGroup: 'O+', componentType: 'Whole Blood', unitsRequested: 1, priority: 'Normal', reasonForRequest: '' };
 const PRIORITY_PILL = { Normal: 'pill-neutral', Urgent: 'pill-warning', Emergency: 'pill-danger', Critical: 'pill-danger' };
@@ -44,7 +45,7 @@ export default function DoctorBloodRequests() {
     }
   }
 
-  if (!data) return error ? <div className="auth-alert" role="alert">{error}</div> : <div className="lsp-panel">Loading...</div>;
+  if (!data) return error ? <div className="auth-alert" role="alert">{error}</div> : <div className="lsp-panel"><Loader compact /></div>;
   const { options } = data;
   const set = (name) => (e) => setForm({ ...form, [name]: e.target.value });
   const err = (name) => errors[name] && <div className="form-error">{errors[name]}</div>;

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { developerApi } from '../../api/kindClient';
 import PageHeader from '../../components/PageHeader';
+import Loader from '../../components/Loader';
 
 export const STATE_PILL = {
   Active: 'pill-success',
@@ -62,7 +63,7 @@ export default function Hospitals() {
       </div>
 
       <div className="lsp-panel">
-        {loading ? 'Loading...' : hospitals.length === 0 ? (
+        {loading ? <Loader compact /> : hospitals.length === 0 ? (
           <div className="empty-state"><span className="es-ico"><i className="bi bi-hospital" /></span><h4>No hospitals found</h4></div>
         ) : (
           <div className="lsp-table-wrapper">

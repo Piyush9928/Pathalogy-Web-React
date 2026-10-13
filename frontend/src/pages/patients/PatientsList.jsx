@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import apiClient from '../../api/client';
 import PageHeader from '../../components/PageHeader';
+import Loader from '../../components/Loader';
 
 export default function PatientsList() {
   const [patients, setPatients] = useState([]);
@@ -61,7 +62,7 @@ export default function PatientsList() {
             </thead>
             <tbody>
               {loading ? (
-                <tr><td colSpan={8}>Loading...</td></tr>
+                <tr><td colSpan={8}><Loader compact /></td></tr>
               ) : patients.length === 0 ? (
                 <tr><td colSpan={8}>No patients found.</td></tr>
               ) : (

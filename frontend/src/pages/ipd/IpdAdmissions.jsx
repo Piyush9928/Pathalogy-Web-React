@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import apiClient from '../../api/client';
 import PageHeader from '../../components/PageHeader';
+import Loader from '../../components/Loader';
 
 export default function IpdAdmissions() {
   const [admissions, setAdmissions] = useState([]);
@@ -63,7 +64,7 @@ export default function IpdAdmissions() {
             <thead><tr><th>Admission #</th><th>Patient</th><th>Ward/Bed</th><th>Doctor</th><th>Admitted On</th><th>Status</th><th></th></tr></thead>
             <tbody>
               {loading ? (
-                <tr><td colSpan={7}>Loading...</td></tr>
+                <tr><td colSpan={7}><Loader compact /></td></tr>
               ) : admissions.length === 0 ? (
                 <tr><td colSpan={7}>No admissions found.</td></tr>
               ) : (

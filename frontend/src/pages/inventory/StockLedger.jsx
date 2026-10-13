@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import apiClient from '../../api/client';
 import PageHeader from '../../components/PageHeader';
+import Loader from '../../components/Loader';
 
 export default function StockLedger() {
   const { id } = useParams();
@@ -40,8 +41,7 @@ export default function StockLedger() {
   }
 
   if (error && !item) return <div className="auth-alert">{error}</div>;
-  if (!item) return null;
-
+  if (!item) return <Loader />;
   return (
     <>
       <PageHeader title={`Stock Ledger — ${item.name}`} subtitle={`Current stock: ${item.current_stock} ${item.unit}`} />

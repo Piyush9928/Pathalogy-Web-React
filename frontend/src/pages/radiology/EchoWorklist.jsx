@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import apiClient from '../../api/client';
+import Loader from '../../components/Loader';
 
 export default function EchoWorklist() {
   const [worklist, setWorklist] = useState([]);
@@ -52,7 +53,7 @@ export default function EchoWorklist() {
             <thead><tr><th>Accession #</th><th>Patient</th><th>Study Date</th><th>Due Amount</th><th>Status</th><th></th></tr></thead>
             <tbody>
               {loading ? (
-                <tr><td colSpan={6}>Loading...</td></tr>
+                <tr><td colSpan={6}><Loader compact /></td></tr>
               ) : worklist.length === 0 ? (
                 <tr><td colSpan={6}>No echo studies found.</td></tr>
               ) : worklist.map((w) => (

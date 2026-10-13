@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import apiClient from '../../api/client';
+import Loader from '../../components/Loader';
 
 export default function TestsList() {
   const [tests, setTests] = useState([]);
@@ -57,7 +58,7 @@ export default function TestsList() {
             </thead>
             <tbody>
               {loading ? (
-                <tr><td colSpan={9}>Loading...</td></tr>
+                <tr><td colSpan={9}><Loader compact /></td></tr>
               ) : tests.length === 0 ? (
                 <tr><td colSpan={9}>No tests found.</td></tr>
               ) : (

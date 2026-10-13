@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import apiClient from '../../api/client';
+import Loader from '../../components/Loader';
 
 export default function SalaryPayments() {
   const [payments, setPayments] = useState([]);
@@ -51,7 +52,7 @@ export default function SalaryPayments() {
             <thead><tr><th>Payment #</th><th>Employee</th><th>Month</th><th>Payment Date</th><th>Status</th><th></th></tr></thead>
             <tbody>
               {loading ? (
-                <tr><td colSpan={6}>Loading...</td></tr>
+                <tr><td colSpan={6}><Loader compact /></td></tr>
               ) : payments.length === 0 ? (
                 <tr><td colSpan={6}>No salary payments found.</td></tr>
               ) : payments.map((p) => (

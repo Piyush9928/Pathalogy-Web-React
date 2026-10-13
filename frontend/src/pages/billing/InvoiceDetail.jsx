@@ -4,6 +4,7 @@ import apiClient from '../../api/client';
 import PageHeader from '../../components/PageHeader';
 import HospitalBrand from '../../components/HospitalBrand';
 import { useAuth } from '../../context/AuthContext';
+import Loader from '../../components/Loader';
 
 function paymentPill(status) {
   if (status === 'Paid') return 'pill-success';
@@ -59,8 +60,7 @@ export default function InvoiceDetail() {
   }
 
   if (error && !data) return <div className="auth-alert">{error}</div>;
-  if (!data) return null;
-
+  if (!data) return <Loader />;
   const { invoice, items, payments } = data;
 
   return (

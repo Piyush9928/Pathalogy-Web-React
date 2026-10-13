@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import apiClient from '../../api/client';
+import Loader from '../../components/Loader';
 
 const EMPTY_FORM = { itemCode: '', name: '', category: 'Tablet', manufacturer: '', gstPercent: 12, unit: 'Strip', minimumStock: 10, mrp: 0, brandType: 'Branded' };
 
@@ -139,7 +140,7 @@ export default function MedicineItems() {
             <thead><tr><th>Code</th><th>Name</th><th>Category</th><th>Stock</th><th>MRP</th><th>Value</th><th>Status</th><th></th></tr></thead>
             <tbody>
               {loading ? (
-                <tr><td colSpan={8}>Loading...</td></tr>
+                <tr><td colSpan={8}><Loader compact /></td></tr>
               ) : items.length === 0 ? (
                 <tr><td colSpan={8}>No medicine items found.</td></tr>
               ) : (

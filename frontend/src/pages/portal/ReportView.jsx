@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import PageHeader from '../../components/PageHeader';
 import HospitalBrand from '../../components/HospitalBrand';
 import { getSession } from '../../api/kindClient';
+import Loader from '../../components/Loader';
 
 const FLAG_CLASS = { High: 'flag-high', Critical: 'flag-critical', Low: 'flag-low' };
 
@@ -22,7 +23,7 @@ export default function ReportView({ api, base, backTo }) {
   const back = <Link className="btn btn-outline-secondary" to={backTo}><i className="bi bi-arrow-left" /> Back</Link>;
 
   if (error) return (<><PageHeader title="Report" actions={back} /><div className="auth-alert" role="alert">{error}</div></>);
-  if (!data) return <div className="lsp-panel">Loading...</div>;
+  if (!data) return <div className="lsp-panel"><Loader compact /></div>;
 
   const { report, results } = data;
   return (

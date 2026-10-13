@@ -115,6 +115,7 @@ const Backup = lazy(() => import('./pages/admin/Backup'));
 
 import PortalShell, { RequireSession } from './layout/PortalShell';
 import { doctorApi, patientApi } from './api/kindClient';
+import Loader from './components/Loader';
 const DeveloperLogin = lazy(() => import('./pages/developer/DeveloperLogin'));
 const DeveloperOverview = lazy(() => import('./pages/developer/DeveloperOverview'));
 const Hospitals = lazy(() => import('./pages/developer/Hospitals'));
@@ -146,7 +147,7 @@ const DOCTOR_NAV = [
 const PATIENT_NAV = [{ to: '/patient-portal', label: 'My Records', icon: 'bi-folder2-open', end: true }];
 export default function App() {
   return (
-    <Suspense fallback={<div style={{ padding: "2rem" }}>Loading...</div>}>
+    <Suspense fallback={<Loader fullPage />}>
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />

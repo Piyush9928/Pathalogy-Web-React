@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import apiClient from '../../api/client';
 import PageHeader from '../../components/PageHeader';
 import { fetchBlobUrl, saveFile } from '../../api/files';
+import Loader from '../../components/Loader';
 
 function isViewableImage(fileName) {
   return /\.(png|jpe?g)$/i.test(fileName);
@@ -89,8 +90,7 @@ export default function StudyDetail() {
   }
 
   if (error && !study) return <div className="auth-alert">{error}</div>;
-  if (!study) return null;
-
+  if (!study) return <Loader />;
   return (
     <>
       <PageHeader
@@ -138,7 +138,7 @@ export default function StudyDetail() {
               {isViewableImage(activeImage.file_name) ? (
                 imageSrc
                   ? <img src={imageSrc} alt={activeImage.file_name} style={{ maxWidth: '100%', maxHeight: 360, borderRadius: 4 }} />
-                  : <div className="text-muted" style={{ padding: '2rem 0' }}>Loading image...</div>
+                  : <Loader compact label="Loading image..." />
               ) : (
                 <div className="text-muted" style={{ padding: '2rem 0' }}>
                   <i className="bi bi-file-earmark-medical" style={{ fontSize: '2rem' }} />
