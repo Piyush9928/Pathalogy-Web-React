@@ -4,6 +4,7 @@ import QRCode from 'qrcode';
 import apiClient from '../../api/client';
 import { useAuth } from '../../context/AuthContext';
 
+import HospitalBrand from '../../components/HospitalBrand';
 export default function BookingLabel() {
   const { id } = useParams();
   const { hospital } = useAuth();
@@ -30,7 +31,7 @@ export default function BookingLabel() {
 
   return (
     <div style={{ maxWidth: 380, margin: '2rem auto', padding: '1.5rem', border: '1px solid #000', fontFamily: 'monospace' }}>
-      <div style={{ textAlign: 'center', fontWeight: 700, fontSize: '1rem', marginBottom: '0.3rem' }}>{hospital?.name || 'LabSync Pro'}</div>
+      <HospitalBrand hospital={hospital} size={32} nameStyle={{ fontSize: '1rem' }} style={{ justifyContent: 'center', marginBottom: '0.3rem' }} />
       <div style={{ textAlign: 'center', fontSize: '0.75rem', marginBottom: '1rem' }}>Sample Collection Label</div>
       <hr />
       <div style={{ fontSize: '0.82rem', lineHeight: 1.6 }}>

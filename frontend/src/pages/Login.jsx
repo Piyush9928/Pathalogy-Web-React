@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { logoUrlByCode } from '../utils/logo';
 
 export default function Login() {
   const { login } = useAuth();
@@ -12,6 +13,8 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const [logoOkFor, setLogoOkFor] = useState(null); // code whose logo loaded
+  const logoSrc = logoUrlByCode(hospitalCode);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -33,7 +36,17 @@ export default function Login() {
       <div>
         <div className="auth-card">
           <div className="auth-brand">
-            <span className="auth-brand-icon"><i className="bi bi-droplet-half" /></span>
+            {logoSrc && (
+              <img
+                key={logoSrc}
+                src={logoSrc}
+                alt=""
+                onLoad={() => setLogoOkFor(logoSrc)}
+                onError={() => setLogoOkFor(null)}
+                style={logoOkFor === logoSrc ? { width: 64, height: 64, objectFit: 'contain', marginBottom: '0.5rem' } : { display: 'none' }}
+              />
+            )}
+            {logoOkFor !== logoSrc && <span className="auth-brand-icon"><i className="bi bi-droplet-half" /></span>}
             <h1>LabSync Pro</h1>
             <p>Sign in to your laboratory workspace</p>
           </div>
@@ -90,10 +103,12 @@ export default function Login() {
             <Link to="/developer/login">Platform console (developers)</Link>
           </div>
 
+          {import.meta.env.DEV && (
           <div className="auth-demo-hint">
             <strong>Demo login:</strong> Hospital Code <code>CITYCARE</code>, email e.g.{' '}
             <code>anita@citycare.in</code> (Super Admin), password <code>Test@123</code>.
           </div>
+          )}
         </div>
         <div className="auth-footer">&copy; {new Date().getFullYear()} LabSync Pro</div>
       </div>

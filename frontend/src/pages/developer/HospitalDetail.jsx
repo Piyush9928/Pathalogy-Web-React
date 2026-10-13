@@ -3,6 +3,7 @@ import { Link, useLocation, useParams } from 'react-router-dom';
 import { developerApi } from '../../api/kindClient';
 import PageHeader from '../../components/PageHeader';
 import { STATE_PILL, fmtDate } from './Hospitals';
+import { resolveLogoUrl } from '../../utils/logo';
 
 export default function HospitalDetail() {
   const { id } = useParams();
@@ -85,6 +86,7 @@ export default function HospitalDetail() {
       {error && <div className="auth-alert" role="alert">{error}</div>}
 
       <div className="lsp-panel">
+        {h.logo_url && <img src={resolveLogoUrl(h.logo_url)} alt={`${h.name} logo`} style={{ width: 64, height: 64, objectFit: 'contain', marginBottom: '0.8rem' }} />}
         <dl className="detail-grid">
           {rows.map(([k, v]) => <div key={k}><dt>{k}</dt><dd>{v || '—'}</dd></div>)}
         </dl>

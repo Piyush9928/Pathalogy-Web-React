@@ -7,3 +7,10 @@ export function resolveLogoUrl(url) {
   if (url.startsWith('/api/')) return apiBase.replace(/\/api\/?$/, '') + url;
   return url;
 }
+
+// Logo for a hospital code, usable before anyone is signed in (404 when the hospital has no logo).
+export function logoUrlByCode(code) {
+  const clean = String(code || '').trim();
+  if (!/^[A-Za-z0-9]{3,30}$/.test(clean)) return null;
+  return `${apiBase.replace(/\/$/, '')}/branding/by-code/${clean}/logo`;
+}

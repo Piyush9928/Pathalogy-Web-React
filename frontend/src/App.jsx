@@ -348,9 +348,7 @@ export default function App() {
         <Route
           path="/admin"
           element={
-            <ProtectedRoute roles={['Super Admin', 'Admin']}>
-              <AdminLayout />
-            </ProtectedRoute>
+            <AdminLayout />
           }
         >
           <Route index element={<CompanySettings />} />

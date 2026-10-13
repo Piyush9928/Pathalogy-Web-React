@@ -21,7 +21,7 @@ function initials(name = '') {
 }
 
 export default function Topbar({ onToggleSidebar }) {
-  const { user, logout } = useAuth();
+  const { user, logout, hasPermission } = useAuth();
   const navigate = useNavigate();
   const now = useClock();
   const [userMenuOpen, setUserMenuOpen] = useState(false);
@@ -96,15 +96,16 @@ export default function Topbar({ onToggleSidebar }) {
                 <div style={{ fontWeight: 700, fontSize: '0.88rem', color: 'var(--lsp-ink)' }}>{user?.name}</div>
                 <div>{user?.role}</div>
               </div>
-              <button className="dropdown-item" type="button" onClick={() => navigate('/admin')}>
-                <i className="bi bi-person-gear" /> My Profile
-              </button>
-              <button className="dropdown-item" type="button" onClick={() => navigate('/admin/company-settings')}>
-                <i className="bi bi-building" /> Company Settings
-              </button>
-              <button className="dropdown-item" type="button" onClick={() => navigate('/admin/roles')}>
-                <i className="bi bi-shield-check" /> Roles &amp; Access
-              </button>
+              {hasPermission('settings.view') && (
+                <button className="dropdown-item" type="button" onClick={() => navigate('/admin')}>
+                  <i className="bi bi-building" /> Company Settings
+                </button>
+              )}
+              {hasPermission('roles.view') && (
+                <button className="dropdown-item" type="button" onClick={() => navigate('/admin/roles')}>
+                  <i className="bi bi-shield-check" /> Roles &amp; Access
+                </button>
+              )}
               <button className="dropdown-item" type="button" onClick={() => navigate('/change-password')}>
                 <i className="bi bi-key" /> Change Password
               </button>

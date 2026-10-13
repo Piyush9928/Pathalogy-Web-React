@@ -2,6 +2,10 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { developerApi } from '../../api/kindClient';
 import PageHeader from '../../components/PageHeader';
+import { resolveLogoUrl } from '../../utils/logo';
+
+const MAX_LOGO_BYTES = 512 * 1024;
+const LOGO_TYPES = ['image/png', 'image/jpeg', 'image/webp'];
 
 const EMPTY = {
   name: '', code: '', address: '', city: '', state: 'Maharashtra', pincode: '', gstin: '', nablNumber: '',
@@ -31,6 +35,9 @@ export default function HospitalForm() {
   const [errors, setErrors] = useState({});
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const [currentLogo, setCurrentLogo] = useState(null); // saved logo (editing)
+  const [logoFile, setLogoFile] = useState(null);       // newly chosen file, uploaded on save
+  const [logoPreview, setLogoPreview] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -38,6 +45,7 @@ export default function HospitalForm() {
         if (editing) {
           const res = await developerApi.get(`/developer/hospitals/${id}`);
           const h = res.data.hospital;
+          setCurrentLogo(h.logo_url || null);
           setForm({
             ...EMPTY, name: h.name, code: h.code, address: h.address || '', city: h.city || '', state: h.state || '', pincode: h.pincode || '',
             gstin: h.gstin || '', nablNumber: h.nabl_number || '', contactPerson: h.contact_person || '', phone: h.phone || '', email: h.email || '',
@@ -55,6 +63,34 @@ export default function HospitalForm() {
     })();
   }, [id, editing]);
 
+  function pickLogo(e) {
+    const file = e.target.files?.[0];
+    e.target.value = '';
+    if (!file) return;
+    if (!LOGO_TYPES.includes(file.type)) return setError('The logo must be a PNG, JPG or WebP image.');
+    if (file.size > MAX_LOGO_BYTES) return setError('The logo must be 512 KB or smaller.');
+    setError('');
+    if (logoPreview) URL.revokeObjectURL(logoPreview);
+    setLogoFile(file);
+    setLogoPreview(URL.createObjectURL(file));
+  }
+
+  function clearPickedLogo() {
+    if (logoPreview) URL.revokeObjectURL(logoPreview);
+    setLogoFile(null);
+    setLogoPreview(null);
+  }
+
+  async function removeSavedLogo() {
+    if (!window.confirm('Remove this hospital\'s logo?')) return;
+    try {
+      await developerApi.delete(`/developer/hospitals/${id}/logo`);
+      setCurrentLogo(null);
+    } catch (err) {
+      setError(err.response?.data?.message || 'Could not remove the logo.');
+    }
+  }
+
   async function handleSubmit(e) {
     e.preventDefault();
     setErrors({});
@@ -64,7 +100,19 @@ export default function HospitalForm() {
       const res = editing
         ? await developerApi.put(`/developer/hospitals/${id}`, form)
         : await developerApi.post('/developer/hospitals', form);
-      navigate(`/developer/hospitals/${editing ? id : res.data.id}`, { state: { flash: editing ? 'Hospital updated.' : 'Hospital onboarded. The Super Admin must change the temporary password at first sign in.' } });
+      const hospitalId = editing ? id : res.data.id;
+      let flash = editing ? 'Hospital updated.' : 'Hospital onboarded. The Super Admin must change the temporary password at first sign in.';
+      if (logoFile) {
+        // The hospital exists now; a failed logo upload must not hide that, so it only adds a note.
+        try {
+          const body = new FormData();
+          body.append('logo', logoFile);
+          await developerApi.post(`/developer/hospitals/${hospitalId}/logo`, body);
+        } catch (uploadErr) {
+          flash += ` The logo could not be uploaded (${uploadErr.response?.data?.message || 'upload failed'}); add it from Edit.`;
+        }
+      }
+      navigate(`/developer/hospitals/${hospitalId}`, { state: { flash } });
     } catch (err) {
       setErrors(err.response?.data?.errors || {});
       setError(err.response?.data?.message || 'Could not save the hospital.');
@@ -96,6 +144,26 @@ export default function HospitalForm() {
             <Field {...p} label="GSTIN" name="gstin" />
             <Field {...p} label="NABL number" name="nablNumber" />
             <Field {...p} label="Address" name="address" className="span-all" />
+          </div>
+        </div>
+
+        <div className="lsp-panel" style={{ marginTop: '1rem' }}>
+          <h2 className="section-title" style={{ marginTop: 0 }}>Logo</h2>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+            <img
+              src={logoPreview || resolveLogoUrl(currentLogo) || '/logo.svg'}
+              alt="Hospital logo preview"
+              style={{ width: 72, height: 72, objectFit: 'contain', border: '1px solid var(--lsp-border, #e5e7eb)', borderRadius: 8, padding: 4 }}
+            />
+            <div className="d-flex gap-2" style={{ flexWrap: 'wrap', alignItems: 'center' }}>
+              <label className="btn btn-outline-secondary" style={{ margin: 0, cursor: 'pointer' }}>
+                {logoFile || currentLogo ? 'Choose a different logo' : 'Choose logo'}
+                <input type="file" accept="image/png,image/jpeg,image/webp" onChange={pickLogo} style={{ display: 'none' }} />
+              </label>
+              {logoFile && <button type="button" className="btn btn-outline-secondary" onClick={clearPickedLogo}>Undo</button>}
+              {editing && currentLogo && !logoFile && <button type="button" className="btn btn-outline-secondary" onClick={removeSavedLogo}>Remove logo</button>}
+              <small className="text-muted">Optional. PNG, JPG or WebP, up to 512 KB. Shown in the app and on printed documents.</small>
+            </div>
           </div>
         </div>
 

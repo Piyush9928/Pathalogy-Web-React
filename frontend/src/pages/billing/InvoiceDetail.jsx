@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import apiClient from '../../api/client';
 import PageHeader from '../../components/PageHeader';
+import HospitalBrand from '../../components/HospitalBrand';
 import { useAuth } from '../../context/AuthContext';
 
 function paymentPill(status) {
@@ -75,7 +76,7 @@ export default function InvoiceDetail() {
       <div className="lsp-panel">
         <div className="d-flex justify-between align-center" style={{ flexWrap: 'wrap' }}>
           <div>
-            <div style={{ fontWeight: 700 }}>{hospital?.name || 'LabSync Pro'}</div>
+            <HospitalBrand hospital={hospital} />
             <div className="text-muted" style={{ fontSize: '0.8rem' }}>{new Date(invoice.invoice_date).toLocaleString('en-IN')}</div>
           </div>
           <span className={`status-pill ${paymentPill(invoice.paymentStatus)}`}>{invoice.paymentStatus}</span>

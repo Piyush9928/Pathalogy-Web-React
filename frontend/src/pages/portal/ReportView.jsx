@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import PageHeader from '../../components/PageHeader';
+import HospitalBrand from '../../components/HospitalBrand';
+import { getSession } from '../../api/kindClient';
 
 const FLAG_CLASS = { High: 'flag-high', Critical: 'flag-critical', Low: 'flag-low' };
 
 /** Read-only report used by both portals. `api` is the portal's axios client, `base` e.g. '/doctor-portal'. */
 export default function ReportView({ api, base, backTo }) {
   const { id } = useParams();
+  const hospital = getSession(base.includes('doctor') ? 'doctor' : 'patient')?.hospital;
   const [data, setData] = useState(null);
   const [error, setError] = useState('');
 
@@ -35,6 +38,7 @@ export default function ReportView({ api, base, backTo }) {
         )}
       />
       <div className="lsp-panel">
+        <HospitalBrand hospital={hospital} style={{ marginBottom: '0.8rem' }} />
         <dl className="detail-grid">
           <div><dt>Patient</dt><dd>{report.patient_name}</dd></div>
           <div><dt>UHID</dt><dd>{report.patient_uhid}</dd></div>

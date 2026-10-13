@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import apiClient from '../../api/client';
 import PageHeader from '../../components/PageHeader';
 import SignaturePad from './SignaturePad';
+import HospitalBrand from '../../components/HospitalBrand';
 import { useAuth } from '../../context/AuthContext';
 
 function flagPill(flag) {
@@ -130,6 +131,7 @@ export default function ReportDetail() {
       </div>
 
       <div className="lsp-panel">
+        <HospitalBrand hospital={hospital} size={52} nameStyle={{ fontSize: '1.15rem' }} style={{ marginBottom: '0.8rem' }} />
         <h3><span className="h-ico"><i className="bi bi-clipboard2-pulse" /></span> Results</h3>
         <div className="lsp-table-wrapper">
           <table className="lsp-table">

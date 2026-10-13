@@ -1,10 +1,10 @@
 import { NavLink } from 'react-router-dom';
-import { NAV_SECTIONS } from '../config/navigation';
+import { NAV_SECTIONS, firstAdminPath } from '../config/navigation';
 import { useAuth } from '../context/AuthContext';
 import { resolveLogoUrl } from '../utils/logo';
 
 export default function Sidebar({ collapsed, mobileOpen }) {
-  const { hospital, user } = useAuth();
+  const { hospital, hasPermission } = useAuth();
 
   return (
     <aside className={`app-sidebar ${collapsed ? 'collapsed' : ''} ${mobileOpen ? 'mobile-open' : ''}`}>
@@ -23,9 +23,10 @@ export default function Sidebar({ collapsed, mobileOpen }) {
 
       <nav className="sidebar-nav">
         {NAV_SECTIONS.map((section) => {
-          const visibleItems = section.items.filter(
-            (item) => !item.roles || (user && item.roles.includes(user.role))
-          );
+          // Only what this user has been given access to; the Administration entry opens their first allowed tab.
+          const visibleItems = section.items
+            .filter((item) => (item.admin ? !!firstAdminPath(hasPermission) : hasPermission(item.permission)))
+            .map((item) => (item.admin ? { ...item, path: firstAdminPath(hasPermission) } : item));
           if (visibleItems.length === 0) return null;
 
           return (

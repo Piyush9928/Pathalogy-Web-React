@@ -2,9 +2,12 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import apiClient from '../../api/client';
 import PageHeader from '../../components/PageHeader';
+import HospitalBrand from '../../components/HospitalBrand';
+import { useAuth } from '../../context/AuthContext';
 
 export default function SaleDetail() {
   const { id } = useParams();
+  const { hospital } = useAuth();
   const [data, setData] = useState(null);
   const [error, setError] = useState('');
 
@@ -26,6 +29,7 @@ export default function SaleDetail() {
       />
 
       <div className="lsp-panel">
+        <HospitalBrand hospital={hospital} style={{ marginBottom: '0.8rem' }} />
         <dl className="detail-list">
           <div><dt>Date</dt><dd>{new Date(sale.sale_date).toLocaleString('en-IN')}</dd></div>
           <div><dt>Payment Mode</dt><dd>{sale.payment_mode}</dd></div>

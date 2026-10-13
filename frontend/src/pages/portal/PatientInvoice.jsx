@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { patientApi } from '../../api/kindClient';
+import { patientApi, getSession } from '../../api/kindClient';
+import HospitalBrand from '../../components/HospitalBrand';
 import PageHeader from '../../components/PageHeader';
 
 const inr = (n) => `₹${Number(n || 0).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
@@ -8,6 +9,7 @@ const fmt = (v) => (v ? new Date(v).toLocaleDateString('en-IN', { day: '2-digit'
 
 export default function PatientInvoice() {
   const { id } = useParams();
+  const hospital = getSession('patient')?.hospital;
   const [data, setData] = useState(null);
   const [error, setError] = useState('');
 
@@ -27,6 +29,7 @@ export default function PatientInvoice() {
       <PageHeader title={`Invoice ${inv.invoice_number}`} subtitle={fmt(inv.invoice_date)}
         actions={<>{back}<button type="button" className="btn btn-outline-secondary" onClick={() => window.print()}><i className="bi bi-printer" /> Print</button></>} />
       <div className="lsp-panel">
+        <HospitalBrand hospital={hospital} style={{ marginBottom: '0.8rem' }} />
         <div className="lsp-table-wrapper">
           <table className="lsp-table">
             <thead><tr><th>Item</th><th className="text-right">Qty</th><th className="text-right">Unit price</th><th className="text-right">Amount</th></tr></thead>

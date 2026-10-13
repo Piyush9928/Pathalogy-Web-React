@@ -26,11 +26,16 @@ async function bootstrap() {
     }
     console.log(`Plans ready: ${PLANS.length}`);
 
+    // The account named by DEVELOPER_EMAIL is created when missing. An existing account is never modified here
+    // (its password is changed from /developer/account), so redeploying cannot reset a password.
     const existing = await client.query('SELECT COUNT(*)::int AS n FROM platform_developers');
-    if (existing.rows[0].n > 0) {
-      console.log('Developer account already exists; not changing it.');
+    const mine = email ? await client.query('SELECT 1 FROM platform_developers WHERE LOWER(email) = $1', [email]) : { rows: [] };
+    if (mine.rows[0]) {
+      console.log(`Developer account ${email} already exists; not changing it.`);
+    } else if (!email && existing.rows[0].n > 0) {
+      console.log('Developer account(s) already exist; DEVELOPER_EMAIL not set, nothing to add.');
     } else if (!email || password.length < 10) {
-      throw new Error('No developer account exists yet: set DEVELOPER_EMAIL and DEVELOPER_PASSWORD (at least 10 characters) and run again.');
+      throw new Error('Set DEVELOPER_EMAIL and DEVELOPER_PASSWORD (at least 10 characters) to create the developer account.');
     } else {
       await client.query(
         `INSERT INTO platform_developers (full_name, email, password_hash, role) VALUES ($1,$2,$3,'Platform Owner')`,

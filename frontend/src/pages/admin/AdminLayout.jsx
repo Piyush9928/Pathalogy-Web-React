@@ -1,16 +1,11 @@
 import { NavLink, Outlet } from 'react-router-dom';
+import { ADMIN_TABS } from '../../config/navigation';
+import { useAuth } from '../../context/AuthContext';
 
-const TABS = [
-  { path: '/admin', label: 'Company Settings', icon: 'bi-building', end: true },
-  { path: '/admin/branches', label: 'Branches', icon: 'bi-diagram-3' },
-  { path: '/admin/users', label: 'Users', icon: 'bi-people' },
-  { path: '/admin/roles', label: 'Roles & Permissions', icon: 'bi-shield-lock' },
-  { path: '/admin/audit-logs', label: 'Audit Logs', icon: 'bi-journal-text' },
-  { path: '/admin/companies', label: 'Companies & Financial Years', icon: 'bi-building-gear' },
-  { path: '/admin/backup', label: 'Backup & Export', icon: 'bi-database-down' },
-];
 
 export default function AdminLayout() {
+  const { hasPermission } = useAuth();
+  const tabs = ADMIN_TABS.filter((tab) => hasPermission(tab.permission));
   return (
     <>
       <div className="page-header">
@@ -22,7 +17,7 @@ export default function AdminLayout() {
 
       <div className="lsp-panel" style={{ padding: '0.6rem', marginBottom: '1rem' }}>
         <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
-          {TABS.map((tab) => (
+          {tabs.map((tab) => (
             <NavLink
               key={tab.path}
               to={tab.path}

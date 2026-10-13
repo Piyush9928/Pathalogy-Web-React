@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Chart from 'chart.js/auto';
 import apiClient from '../api/client';
 import PageHeader from '../components/PageHeader';
+import { useAuth } from '../context/AuthContext';
 
 function trendClass(value, invert = false) {
   if (Math.abs(value) < 0.05) return 'flat';
@@ -44,6 +45,7 @@ function KpiCard({ icon, iconTone, trend, invertTrend, value, prefix = '', label
 }
 
 export default function Dashboard() {
+  const { hasPermission } = useAuth();
   const [data, setData] = useState(null);
   const [error, setError] = useState('');
 
@@ -199,8 +201,8 @@ export default function Dashboard() {
         subtitle={`Here is what is happening at the laboratory today, ${new Date(data.today).toLocaleDateString('en-IN', { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' })}.`}
         actions={
           <>
-            <Link className="btn btn-outline-secondary" to="/bookings/new"><i className="bi bi-journal-plus" /> New Booking</Link>
-            <Link className="btn btn-primary" to="/patients/new"><i className="bi bi-person-plus" /> Register Patient</Link>
+            {hasPermission('bookings.create') && <Link className="btn btn-outline-secondary" to="/bookings/new"><i className="bi bi-journal-plus" /> New Booking</Link>}
+            {hasPermission('patients.create') && <Link className="btn btn-primary" to="/patients/new"><i className="bi bi-person-plus" /> Register Patient</Link>}
           </>
         }
       />
@@ -277,10 +279,10 @@ export default function Dashboard() {
         <div className="lsp-panel mb-0" style={{ display: 'flex', flexDirection: 'column' }}>
           <h3><span className="h-ico"><i className="bi bi-lightning-charge-fill" /></span> Quick Actions</h3>
           <div className="quick-grid">
-            <Link className="quick-action" to="/patients/new"><i className="bi bi-person-plus-fill" /><span><span className="qa-title" style={{ display: 'block' }}>Register Patient</span><span className="qa-sub">Generate a new UHID</span></span></Link>
-            <Link className="quick-action" to="/bookings/new"><i className="bi bi-journal-plus" /><span><span className="qa-title" style={{ display: 'block' }}>New Booking</span><span className="qa-sub">Select tests &amp; collect</span></span></Link>
-            <Link className="quick-action" to="/reports"><i className="bi bi-patch-check-fill" /><span><span className="qa-title" style={{ display: 'block' }}>Verify Reports</span><span className="qa-sub">{kpis.reportsPending} in queue</span></span></Link>
-            <Link className="quick-action" to="/billing/new"><i className="bi bi-receipt-cutoff" /><span><span className="qa-title" style={{ display: 'block' }}>Create Invoice</span><span className="qa-sub">GST &amp; discounts</span></span></Link>
+            {hasPermission('patients.create') && <Link className="quick-action" to="/patients/new"><i className="bi bi-person-plus-fill" /><span><span className="qa-title" style={{ display: 'block' }}>Register Patient</span><span className="qa-sub">Generate a new UHID</span></span></Link>}
+            {hasPermission('bookings.create') && <Link className="quick-action" to="/bookings/new"><i className="bi bi-journal-plus" /><span><span className="qa-title" style={{ display: 'block' }}>New Booking</span><span className="qa-sub">Select tests &amp; collect</span></span></Link>}
+            {hasPermission('reports.view') && <Link className="quick-action" to="/reports"><i className="bi bi-patch-check-fill" /><span><span className="qa-title" style={{ display: 'block' }}>Verify Reports</span><span className="qa-sub">{kpis.reportsPending} in queue</span></span></Link>}
+            {hasPermission('billing.create') && <Link className="quick-action" to="/billing/new"><i className="bi bi-receipt-cutoff" /><span><span className="qa-title" style={{ display: 'block' }}>Create Invoice</span><span className="qa-sub">GST &amp; discounts</span></span></Link>}
           </div>
           <div className="amount-summary">
             <div className="amount-row"><span><i className="bi bi-cash-stack" /> Outstanding invoices</span><span style={{ fontWeight: 600 }}>{kpis.outstandingInvoices}</span></div>

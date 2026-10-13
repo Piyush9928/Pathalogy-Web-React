@@ -5,6 +5,7 @@ const { requireKind, signKindToken } = require('../middleware/kindAuth');
 const { writeAudit } = require('../utils/audit');
 const { buildRoleDefinitions } = require('../config/roleDefinitions');
 const { clearAuthCache } = require('../middleware/auth');
+const { logoUpload, saveHospitalLogo, removeHospitalLogo } = require('../utils/logoStore');
 const { createDatabaseBackup, listBackups, deleteBackup, getBackupPath } = require('../utils/backup');
 
 // Platform console. A developer sits above every hospital: onboards tenants, assigns
@@ -308,6 +309,27 @@ router.put('/hospitals/:id', requireDeveloper, async (req, res) => {
   if (!result.rows[0]) return res.status(404).json({ message: 'Hospital not found.' });
   await audit(req, result.rows[0].id, 'Edit Hospital', result.rows[0].name);
   res.json(result.rows[0]);
+});
+
+// POST /api/developer/hospitals/:id/logo (multipart, field "logo") - set or replace a hospital's logo; DELETE removes it.
+// Same rules as the hospital's own Company Settings upload: PNG / JPG / WebP up to 512 KB.
+router.post('/hospitals/:id/logo', requireDeveloper, logoUpload.single('logo'), async (req, res) => {
+  if (!/^\d+$/.test(req.params.id)) return res.status(404).json({ message: 'Hospital not found.' });
+  const hospital = await pool.query(`SELECT id, name FROM hospitals WHERE id = $1`, [req.params.id]);
+  if (!hospital.rows[0]) return res.status(404).json({ message: 'Hospital not found.' });
+  const saved = await saveHospitalLogo(hospital.rows[0].id, req.file);
+  if (saved.error) return res.status(400).json({ message: saved.error });
+  await audit(req, hospital.rows[0].id, 'Update Hospital Logo', hospital.rows[0].name);
+  res.json({ logoUrl: saved.logoUrl });
+});
+
+router.delete('/hospitals/:id/logo', requireDeveloper, async (req, res) => {
+  if (!/^\d+$/.test(req.params.id)) return res.status(404).json({ message: 'Hospital not found.' });
+  const hospital = await pool.query(`SELECT id, name FROM hospitals WHERE id = $1`, [req.params.id]);
+  if (!hospital.rows[0]) return res.status(404).json({ message: 'Hospital not found.' });
+  await removeHospitalLogo(hospital.rows[0].id);
+  await audit(req, hospital.rows[0].id, 'Remove Hospital Logo', hospital.rows[0].name);
+  res.json({ logoUrl: null });
 });
 
 // PATCH /api/developer/hospitals/:id/status { status: 'Active' | 'Suspended' }

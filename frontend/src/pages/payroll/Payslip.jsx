@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import apiClient from '../../api/client';
 import PageHeader from '../../components/PageHeader';
+import HospitalBrand from '../../components/HospitalBrand';
 import { useAuth } from '../../context/AuthContext';
 
 export default function Payslip() {
@@ -62,7 +63,7 @@ export default function Payslip() {
 
       <div className="lsp-panel">
         <div className="d-flex justify-between align-center" style={{ marginBottom: '1rem' }}>
-          <div style={{ fontWeight: 700, fontSize: '1.1rem' }}>{hospital?.name || 'LabSync Pro'}</div>
+          <HospitalBrand hospital={hospital} nameStyle={{ fontSize: '1.1rem' }} />
           {payment.is_cancelled ? <span className="status-pill pill-neutral">Cancelled</span> : payment.is_approved ? <span className="status-pill pill-teal">Approved</span> : <span className="status-pill pill-amber">Pending Approval</span>}
         </div>
 
