@@ -8,7 +8,7 @@
 }
 .auth-card {
   width: 100%;
-  max-width: 400px;
+  max-width: 480px;
   background: var(--lsp-surface);
   border-radius: var(--lsp-r-xl);
   box-shadow: var(--lsp-e5);
