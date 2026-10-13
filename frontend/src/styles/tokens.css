@@ -1,0 +1,130 @@
+/* Design tokens - translated 1:1 from the original ASP.NET app's wwwroot/css/site.css
+   so the React rebuild keeps visual parity with LabSync Pro / Pathalogy Easy. */
+
+:root {
+    /* ---- Brand: mint / aqua accent ---- */
+    --wn-mint: #8ee7db;
+    --wn-mint-strong: #5cd6c5;
+    --wn-mint-deep: #0f8b7e;
+    --wn-mint-soft: #d6f5f0;
+    --wn-mint-faint: #eaf9f7;
+
+    /* ---- Brand: deep navy ---- */
+    --wn-navy: #1b2c47;
+    --wn-navy-deep: #132038;
+    --wn-navy-soft: #2e4361;
+    --wn-navy-tint: #e9eef6;
+
+    /* ---- Semantic ---- */
+    --lsp-primary: #0f8b7e;
+    --lsp-primary-dark: #0b7367;
+    --lsp-primary-deep: #1b2c47;
+    --lsp-primary-50: #eaf9f7;
+    --lsp-primary-100: #d6f5f0;
+    --lsp-primary-200: #b3ece3;
+
+    --lsp-accent: #0f8b7e;
+    --lsp-accent-50: #eaf9f7;
+    --lsp-accent-100: #d6f5f0;
+
+    --lsp-success: #16a37b;
+    --lsp-success-50: #e7f7f1;
+    --lsp-success-100: #cdefe3;
+    --lsp-warning: #d98218;
+    --lsp-warning-50: #fff5e6;
+    --lsp-warning-100: #fde8c6;
+    --lsp-danger: #e5484d;
+    --lsp-danger-50: #ffecec;
+    --lsp-danger-100: #ffd9da;
+    --lsp-info: #0f8b7e;
+    --lsp-violet: #6d4fc4;
+
+    /* ---- Neutrals ---- */
+    --lsp-bg: #f1f8f8;
+    --lsp-surface: #ffffff;
+    --lsp-surface-alt: #f7fbfb;
+    --lsp-border: #ecf0f3;
+    --lsp-border-strong: #dde4ea;
+    --lsp-ink: #101d33;
+    --lsp-text: #1b2b45;
+    --lsp-text-muted: #7b8aa0;
+    --lsp-text-soft: #9aa7ba;
+
+    /* ---- Elevation ---- */
+    --lsp-e1: 0 1px 2px rgba(27, 44, 71, 0.04);
+    --lsp-e2: 0 2px 6px rgba(27, 44, 71, 0.05);
+    --lsp-e3: 0 6px 18px rgba(27, 44, 71, 0.07);
+    --lsp-e4: 0 12px 30px rgba(27, 44, 71, 0.09);
+    --lsp-e5: 0 20px 48px rgba(27, 44, 71, 0.14);
+    --lsp-ring: 0 0 0 3.5px rgba(92, 214, 197, 0.32);
+
+    /* ---- Shape ---- */
+    --lsp-r-sm: 10px;
+    --lsp-r: 16px;
+    --lsp-r-lg: 20px;
+    --lsp-r-xl: 26px;
+
+    /* ---- Layout ---- */
+    --lsp-sidebar-w: 252px;
+    --lsp-sidebar-collapsed-w: 76px;
+    --lsp-topbar-h: 68px;
+
+    /* ---- Motion ---- */
+    --lsp-ease: cubic-bezier(0.4, 0, 0.2, 1);
+    --lsp-spring: cubic-bezier(0.34, 1.4, 0.64, 1);
+
+    font-size: 15px;
+}
+
+[data-theme='dark'] {
+    --wn-mint: #6ddfd2;
+    --wn-mint-strong: #4dcfc0;
+    --wn-mint-deep: #3bc0b0;
+    --wn-mint-soft: #1a3f3c;
+    --wn-mint-faint: #0f2927;
+
+    --lsp-primary: #4dcfc0;
+    --lsp-primary-dark: #3bc0b0;
+    --lsp-primary-deep: #8ee7db;
+    --lsp-primary-50: #0f2927;
+    --lsp-primary-100: #163533;
+    --lsp-primary-200: #1e4845;
+
+    --lsp-accent: #4dcfc0;
+    --lsp-accent-50: #0f2927;
+    --lsp-accent-100: #163533;
+
+    --lsp-success: #2dd4a0;
+    --lsp-success-50: #0b2a20;
+    --lsp-success-100: #123825;
+    --lsp-warning: #f0a030;
+    --lsp-warning-50: #2a1a05;
+    --lsp-warning-100: #3a2508;
+    --lsp-danger: #f06a6e;
+    --lsp-danger-50: #2a0e0f;
+    --lsp-danger-100: #3a1215;
+    --lsp-info: #4dcfc0;
+    --lsp-violet: #9b7fe8;
+
+    --lsp-bg: #0f1117;
+    --lsp-surface: #171b24;
+    --lsp-surface-alt: #1e2330;
+    --lsp-border: #252b3a;
+    --lsp-border-strong: #2e3649;
+    --lsp-ink: #e8eaf0;
+    --lsp-text: #d0d6e8;
+    --lsp-text-muted: #6b7694;
+    --lsp-text-soft: #4e5872;
+
+    --lsp-e1: 0 1px 2px rgba(0, 0, 0, 0.25);
+    --lsp-e2: 0 2px 6px rgba(0, 0, 0, 0.3);
+    --lsp-e3: 0 6px 18px rgba(0, 0, 0, 0.35);
+    --lsp-e4: 0 12px 30px rgba(0, 0, 0, 0.4);
+    --lsp-e5: 0 20px 48px rgba(0, 0, 0, 0.5);
+    --lsp-ring: 0 0 0 3.5px rgba(77, 207, 192, 0.28);
+
+    --wn-navy: #141820;
+    --wn-navy-deep: #0d1016;
+    --wn-navy-soft: #1c2230;
+    --wn-navy-tint: #1e2330;
+}
